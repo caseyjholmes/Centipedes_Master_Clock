@@ -46,8 +46,8 @@ void loop() {
     buttonFlag = 0;                                               //reset button flag variable
   }
 
-if (toggleState){                                
-   //digitalWrite(outputLed, 1);                                  //turn on the LED that signals the clock has been enabled
+if (toggleState){                                                 //if button is toggled on
+   digitalWrite(outputLed, 0);                                    //turn off the red LED
    frequency = map(analogRead(A0), 0, 1023, 20, 3000);            //read and map pot on A into speed pot variable 1000 is max delay time(slow) 20 is minimum (fast)
    dutypot = map(analogRead(A1), 0, 1023,10, frequency);          //read and map pot on A into speed pot variable
    offDuration = frequency - dutypot;                             //calculation to get off time from duty cycle on time              
@@ -66,8 +66,8 @@ if (toggleState){
    }
 }
 
-else if (!enableState){
-   //digitalWrite(enableLed, 1);                                  //turn on the LED that signals the clock has been anabled
+else if (!enableState){                                           //if trigger input "HIGH" is detected (pullup goes low)
+   digitalWrite(enableLed, 0);                                    //turn off the green LED
    frequency = map(analogRead(A0), 0, 1023, 20, 3000);            //read and map pot on A into speed pot variable 1000 is max delay time(slow) 20 is minimum (fast)
    dutypot = map(analogRead(A1), 0, 1023,10, frequency);          //read and map pot on A into speed pot variable
    offDuration = frequency - dutypot;                             //calculation to get off time from duty cycle on time              
@@ -84,7 +84,7 @@ else if (!enableState){
       isOn = true;                                                //update boolean is on with false value so next time through the loop it turns on instead of off
       previousTime = currentTime;                                 //set previous time to equal current time
    }
-}else{                                                            //else to manage shutting everything off if the enable isn't high. 
+}else{                                                            //else to manage shutting everything off if the enable isn't high and the button toggle isn't on
 digitalWrite(enableLed, 0);                                       //keep the red enable output led off
 digitalWrite(output, 0);                                          //keep the output off
 digitalWrite(outputLed, 0);                                       //keep green output led off
